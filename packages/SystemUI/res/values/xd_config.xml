@@ -31,4 +31,8 @@
     <string name="config_systemUIFactoryComponent">org.pixelexperience.systemui.SystemUIGoogleFactory</string>
     <string name="config_systemUIVendorServiceComponent">org.pixelexperience.systemui.GoogleServices</string>
 
+    <!-- StatusBar burn-in protection -->
+    <bool name="config_statusBarBurnInProtection">false</bool>
+    <integer name="config_shift_interval">60</integer>
+
 </resources>
