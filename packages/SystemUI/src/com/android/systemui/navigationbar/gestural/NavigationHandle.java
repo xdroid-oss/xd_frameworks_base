@@ -43,6 +43,7 @@ public class NavigationHandle extends View implements ButtonInterface {
     protected final int mBottom;
     private boolean mIsDreaming = false;
     private boolean mIsKeyguard = false;
+    private int mVerticalShift;
     private boolean mRequiresInvalidate;
 
     private KeyguardUpdateMonitor mUpdateMonitor;
@@ -109,7 +110,7 @@ public class NavigationHandle extends View implements ButtonInterface {
         int navHeight = getHeight();
         int height = mRadius * 2;
         int width = getWidth();
-        int y = (navHeight - mBottom - height);
+        int y = (navHeight - mBottom - height + mVerticalShift);
         canvas.drawRoundRect(0, y, width, y + height, mRadius, mRadius, mPaint);
     }
 
@@ -141,6 +142,11 @@ public class NavigationHandle extends View implements ButtonInterface {
 
     @Override
     public void setDelayTouchFeedback(boolean shouldDelay) {
+    }
+
+    public void shiftHandle(int verticalShift) {
+        mVerticalShift = verticalShift;
+        invalidate();
     }
 
     @Override
