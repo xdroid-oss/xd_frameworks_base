@@ -56,6 +56,7 @@ import com.android.systemui.qs.tiles.WorkModeTile;
 import com.android.systemui.util.leak.GarbageMonitor;
 import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.AmbientDisplayTile;
+import com.android.systemui.qs.tiles.AODTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
 
 import javax.inject.Inject;
@@ -98,6 +99,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<PowerShareTile> mPowerShareTileProvider;
     private final Provider<CaffeineTile> mCaffeineTileProvider;
     private final Provider<AmbientDisplayTile> mAmbientDisplayTileProvider;
+    private final Provider<AODTile> mAODTileProvider;
     private final Provider<UsbTetherTile> mUsbTetherTileProvider;
     private final Provider<HeadsUpTile> mHeadsUpTileProvider;
 
@@ -138,6 +140,7 @@ public class QSFactoryImpl implements QSFactory {
             Provider<PowerShareTile> powerShareTileProvider,
             Provider<CaffeineTile> caffeineTileProvider,
             Provider<AmbientDisplayTile> ambientDisplayTileProvider,
+            Provider<AODTile> aodTileProvider,
             Provider<UsbTetherTile> usbTetherTileProvider,
             Provider<HeadsUpTile> headsUpTileProvider) {
         mQsHostLazy = qsHostLazy;
@@ -173,6 +176,7 @@ public class QSFactoryImpl implements QSFactory {
         mPowerShareTileProvider = powerShareTileProvider;
         mCaffeineTileProvider = caffeineTileProvider;
         mAmbientDisplayTileProvider = ambientDisplayTileProvider;
+        mAODTileProvider = aodTileProvider;
         mUsbTetherTileProvider = usbTetherTileProvider;
         mHeadsUpTileProvider = headsUpTileProvider;
     }
@@ -248,6 +252,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mCaffeineTileProvider.get();
             case "ambient_display":
                 return mAmbientDisplayTileProvider.get();
+            case "aod":
+                return mAODTileProvider.get();
             case "usb_tether":
                 return mUsbTetherTileProvider.get();
             case "heads_up":
