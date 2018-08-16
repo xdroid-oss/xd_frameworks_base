@@ -88,5 +88,6 @@ public class SystemSettings {
         Settings.System.QS_SHOW_BATTERY_ESTIMATE,
         Settings.System.DOZE_ON_CHARGE,
         Settings.System.KEYGAURD_MEDIA_ART,
+        Settings.System.LOCKSCREEN_BATTERY_INFO,
     };
 }
