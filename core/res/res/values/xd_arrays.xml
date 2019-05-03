@@ -43,5 +43,4 @@
         <item>reboot_bootloader</item>
         <item>reboot_sysui</item>
     </string-array>
-
 </resources>
