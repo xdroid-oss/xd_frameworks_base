@@ -198,5 +198,6 @@ public class SecureSettings {
         Settings.Secure.QS_SHOW_AUTO_BRIGHTNESS_BUTTON,
         Settings.Secure.GESTURE_NAVBAR_LENGTH_MODE,
         Settings.Secure.SHOW_COMBINED_STATUS_BAR_SIGNAL_ICONS,
+        Settings.Secure.TETHERING_ALLOW_VPN_UPSTREAMS,
     };
 }
