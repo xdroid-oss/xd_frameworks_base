@@ -86,5 +86,6 @@ public class SystemSettings {
         Settings.System.NOTIFICATION_LIGHT_PULSE,
         Settings.System.FULLSCREEN_GESTURES,
         Settings.System.QS_SHOW_BATTERY_ESTIMATE,
+        Settings.System.DOZE_ON_CHARGE,
     };
 }
