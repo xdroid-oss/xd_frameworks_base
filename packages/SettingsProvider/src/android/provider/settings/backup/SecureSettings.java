@@ -198,5 +198,6 @@ public class SecureSettings {
         Settings.Secure.QS_SHOW_AUTO_BRIGHTNESS_BUTTON,
         Settings.Secure.SECURE_LOCKSCREEN_QS_DISABLED,
         Settings.Secure.ENABLE_LOCATION_PRIVACY_INDICATOR,
+        Settings.Secure.GESTURE_NAVBAR_LENGTH_MODE,
     };
 }
