@@ -34,7 +34,4 @@
     <string-array name="config_deviceKeyHandlerClasses" translatable="false"> 
     </string-array>
 
-    <!-- Default value for Ambiant Pulse light color -->
-    <integer name="config_ambientNotificationDefaultColor">0xFF3980FF</integer>
-
 </resources>
