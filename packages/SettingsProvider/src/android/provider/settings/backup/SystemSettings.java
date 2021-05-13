@@ -87,5 +87,6 @@ public class SystemSettings {
         Settings.System.FULLSCREEN_GESTURES,
         Settings.System.VOLUME_PANEL_ON_LEFT,
         Settings.System.LOCKSCREEN_BATTERY_INFO,
+        Settings.System.AUTO_BRIGHTNESS_ONE_SHOT,
     };
 }
