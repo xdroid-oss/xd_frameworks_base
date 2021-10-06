@@ -716,6 +716,14 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
     }
 
     @Override
+    public void onUiModeChanged() {
+        mContext.getTheme().applyStyle(mContext.getThemeResId(), true);
+        if (mDialog != null) {
+            mDialog.refreshDialog();
+        }
+    }
+
+    @Override
     public void onConfigChanged(Configuration newConfig) {
         if (mDialog != null && mDialog.isShowing()
                 && (newConfig.smallestScreenWidthDp != mSmallestScreenWidthDp)) {
