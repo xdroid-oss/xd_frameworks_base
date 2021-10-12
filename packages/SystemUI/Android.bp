@@ -128,7 +128,6 @@ android_library {
         "vendor-pixelatoms-java",
         "vendor.lineage.powershare-V1.0-java",
         "colorkt",
-        "monet",
         "themelib",
     ],
     manifest: "AndroidManifest.xml",
