@@ -5350,6 +5350,12 @@ public final class Settings {
         public static final String TORCH_POWER_BUTTON_GESTURE = "torch_power_button_gesture";
 
         /**
+         * Whether to show battery estimates in QS
+         * @hide
+         */
+        public static final String QS_SHOW_BATTERY_ESTIMATE = "qs_show_battery_estimate";
+
+        /**
          * These are all public system settings
          *
          * @hide
