@@ -199,6 +199,15 @@ class ConfigurationController {
                 mConfiguration = new Configuration();
             }
             if (!mConfiguration.isOtherSeqNewer(config) && compat == null) {
+<<<<<<< HEAD
+=======
+                // TODO (b/135719017): Temporary log for debugging IME service.
+                if (Build.IS_ENG && hasIme) {
+                    Log.w(TAG, "handleConfigurationChanged for IME app but config seq is obsolete "
+                            + ", config=" + config
+                            + ", mConfiguration=" + mConfiguration);
+                }
+>>>>>>> 66d27b308eb7... IS_DEBUGGABLE -> IS_ENG
                 return;
             }
 
@@ -227,6 +236,16 @@ class ConfigurationController {
                 ComponentCallbacks2 cb = callbacks.get(i);
                 if (!equivalent) {
                     performConfigurationChanged(cb, config);
+<<<<<<< HEAD
+=======
+                } else {
+                    // TODO (b/135719017): Temporary log for debugging IME service.
+                    if (Build.IS_ENG && cb instanceof InputMethodService) {
+                        Log.w(TAG, "performConfigurationChanged didn't callback to IME "
+                                + ", configDiff=" + configDiff
+                                + ", mConfiguration=" + mConfiguration);
+                    }
+>>>>>>> 66d27b308eb7... IS_DEBUGGABLE -> IS_ENG
                 }
             }
         }
