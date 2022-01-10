@@ -88,5 +88,6 @@ public class SystemSettings {
         Settings.System.VOLUME_PANEL_ON_LEFT,
         Settings.System.LOCKSCREEN_BATTERY_INFO,
         Settings.System.AUTO_BRIGHTNESS_ONE_SHOT,
+        Settings.System.ENABLE_RIPPLE_EFFECT,
     };
 }
