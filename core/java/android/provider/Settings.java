@@ -5467,6 +5467,13 @@ public final class Settings {
          */
         public static final String QS_SHOW_BATTERY_ESTIMATE = "qs_show_battery_estimate";
 
+         /**
+         * Whether to disable the ripple animation on fingerprint unlock
+         *
+         * @hide
+         */
+        public static final String DISABLE_RIPPLE_EFFECT = "disable_ripple_effect";
+
         /**
          * Use doubletap as doze pulse triggers
          * @hide
