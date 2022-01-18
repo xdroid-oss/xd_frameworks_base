@@ -5551,6 +5551,12 @@ public final class Settings {
         public static final String ENABLE_RIPPLE_EFFECT = "enable_ripple_effect";
 
         /**
+         * Force full screen for devices with cutout
+         * @hide
+         */
+        public static final String FORCE_FULLSCREEN_CUTOUT_APPS = "force_full_screen_cutout_apps";
+
+        /**
          * These are all public system settings
          *
          * @hide
@@ -5671,6 +5677,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(VOLUME_ROCKER_WAKE);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO);
+            PRIVATE_SETTINGS.add(FORCE_FULLSCREEN_CUTOUT_APPS);
         }
 
         /**
