@@ -72,15 +72,6 @@ public class SensorPrivacyServiceMockingTest {
     public static final String PERSISTENCE_FILE6 =
             String.format(PERSISTENCE_FILE_PATHS_TEMPLATE, 6);
 
-    public static final String PERSISTENCE_FILE_MIC_MUTE_CAM_MUTE =
-            "SensorPrivacyServiceMockingTest/persisted_file_micMute_camMute.xml";
-    public static final String PERSISTENCE_FILE_MIC_MUTE_CAM_UNMUTE =
-            "SensorPrivacyServiceMockingTest/persisted_file_micMute_camUnmute.xml";
-    public static final String PERSISTENCE_FILE_MIC_UNMUTE_CAM_MUTE =
-            "SensorPrivacyServiceMockingTest/persisted_file_micUnmute_camMute.xml";
-    public static final String PERSISTENCE_FILE_MIC_UNMUTE_CAM_UNMUTE =
-            "SensorPrivacyServiceMockingTest/persisted_file_micUnmute_camUnmute.xml";
-
     private Context mContext;
     @Mock
     private AppOpsManager mMockedAppOpsManager;
@@ -148,85 +139,6 @@ public class SensorPrivacyServiceMockingTest {
             initServiceWithPersistenceFile(onDeviceFile, PERSISTENCE_FILE4);
             initServiceWithPersistenceFile(onDeviceFile, PERSISTENCE_FILE5);
             initServiceWithPersistenceFile(onDeviceFile, PERSISTENCE_FILE6);
-
-        } finally {
-            mockitoSession.finishMocking();
-        }
-    }
-
-    @Test
-    public void testServiceInit_AppOpsRestricted_micMute_camMute() throws IOException {
-        testServiceInit_AppOpsRestricted(PERSISTENCE_FILE_MIC_MUTE_CAM_MUTE, true, true);
-    }
-
-    @Test
-    public void testServiceInit_AppOpsRestricted_micMute_camUnmute() throws IOException {
-        testServiceInit_AppOpsRestricted(PERSISTENCE_FILE_MIC_MUTE_CAM_UNMUTE, true, false);
-    }
-
-    @Test
-    public void testServiceInit_AppOpsRestricted_micUnmute_camMute() throws IOException {
-        testServiceInit_AppOpsRestricted(PERSISTENCE_FILE_MIC_UNMUTE_CAM_MUTE, false, true);
-    }
-
-    @Test
-    public void testServiceInit_AppOpsRestricted_micUnmute_camUnmute() throws IOException {
-        testServiceInit_AppOpsRestricted(PERSISTENCE_FILE_MIC_UNMUTE_CAM_UNMUTE, false, false);
-    }
-
-    private void testServiceInit_AppOpsRestricted(String persistenceFileMicMuteCamMute,
-            boolean expectedMicState, boolean expectedCamState)
-            throws IOException {
-        MockitoSession mockitoSession = ExtendedMockito.mockitoSession()
-                .initMocks(this)
-                .strictness(Strictness.WARN)
-                .spyStatic(LocalServices.class)
-                .spyStatic(Environment.class)
-                .startMocking();
-
-        try {
-            mContext = InstrumentationRegistry.getInstrumentation().getContext();
-            spyOn(mContext);
-
-            doReturn(mMockedAppOpsManager).when(mContext).getSystemService(AppOpsManager.class);
-            doReturn(mMockedAppOpsManagerInternal)
-                    .when(() -> LocalServices.getService(AppOpsManagerInternal.class));
-            doReturn(mMockedUserManagerInternal)
-                    .when(() -> LocalServices.getService(UserManagerInternal.class));
-            doReturn(mMockedActivityManager).when(mContext).getSystemService(ActivityManager.class);
-            doReturn(mMockedActivityTaskManager)
-                    .when(mContext).getSystemService(ActivityTaskManager.class);
-            doReturn(mMockedTelephonyManager).when(mContext).getSystemService(
-                    TelephonyManager.class);
-
-            String dataDir = mContext.getApplicationInfo().dataDir;
-            doReturn(new File(dataDir)).when(() -> Environment.getDataSystemDirectory());
-
-            File onDeviceFile = new File(dataDir, "sensor_privacy.xml");
-            onDeviceFile.delete();
-
-            doReturn(new int[]{0}).when(mMockedUserManagerInternal).getUserIds();
-            doReturn(ExtendedMockito.mock(UserInfo.class)).when(mMockedUserManagerInternal)
-                    .getUserInfo(0);
-
-            CompletableFuture<Boolean> micState = new CompletableFuture<>();
-            CompletableFuture<Boolean> camState = new CompletableFuture<>();
-            doAnswer(invocation -> {
-                int code = invocation.getArgument(0);
-                boolean restricted = invocation.getArgument(1);
-                if (code == AppOpsManager.OP_RECORD_AUDIO) {
-                    micState.complete(restricted);
-                } else if (code == AppOpsManager.OP_CAMERA) {
-                    camState.complete(restricted);
-                }
-                return null;
-            }).when(mMockedAppOpsManagerInternal).setGlobalRestriction(anyInt(), anyBoolean(),
-                    any());
-
-            initServiceWithPersistenceFile(onDeviceFile, persistenceFileMicMuteCamMute, 0);
-
-            Assert.assertTrue(micState.join() == expectedMicState);
-            Assert.assertTrue(camState.join() == expectedCamState);
 
         } finally {
             mockitoSession.finishMocking();

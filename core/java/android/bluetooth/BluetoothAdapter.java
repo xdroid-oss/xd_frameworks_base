@@ -3284,62 +3284,6 @@ public final class BluetoothAdapter {
         }
     }
 
-    private boolean getBroadcastProfile(Context context,
-                                      BluetoothProfile.ServiceListener listener) {
-        boolean ret = true;
-        Class<?> broadcastClass = null;
-        Constructor bcastConstructor = null;
-        Object broadcastObj = null;
-        try {
-            broadcastClass = Class.forName("android.bluetooth.BluetoothBroadcast");
-        } catch (ClassNotFoundException ex) {
-            Log.e(TAG, "no BluetoothBroadcast: exists");
-        }
-        if (broadcastClass != null) {
-            try {
-               bcastConstructor =
-                            broadcastClass.getDeclaredConstructor(new Class[]{Context.class,
-                                                  BluetoothProfile.ServiceListener.class});
-            } catch (NoSuchMethodException ex) {
-               Log.e(TAG, "bcastConstructor: NoSuchMethodException: gdm" + ex);
-            }
-        }
-        if (bcastConstructor != null) {
-            try {
-                broadcastObj = bcastConstructor.newInstance(context, listener);
-            } catch (InstantiationException | IllegalAccessException |
-                InvocationTargetException ex) {
-                ex.printStackTrace();
-            }
-        }
-        if (broadcastObj == null) {
-            return false;
-        }
-        return true;
-    }
-    private void closeBroadcastProfile(BluetoothProfile proxy) {
-        Class<?> broadcastClass = null;
-        Method broadcastClose = null;
-        try {
-            broadcastClass = Class.forName("android.bluetooth.BluetootBroadcast");
-        } catch (ClassNotFoundException ex) {
-            Log.e(TAG, "no BluetoothBroadcast: exists");
-        }
-        if (broadcastClass != null) {
-            try {
-                broadcastClose =  broadcastClass.getDeclaredMethod("close", null);
-            } catch (NoSuchMethodException e) {
-                Log.e(TAG, "no Broadcast:close method exists");
-            }
-            if (broadcastClose != null) {
-                try {
-                    broadcastClose.invoke(proxy, null);
-                } catch(IllegalAccessException | InvocationTargetException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-    }
     private static final IBluetoothManagerCallback sManagerCallback =
             new IBluetoothManagerCallback.Stub() {
                 public void onBluetoothServiceUp(IBluetooth bluetoothService) {

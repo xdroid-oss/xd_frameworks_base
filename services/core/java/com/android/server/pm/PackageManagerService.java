@@ -22695,7 +22695,7 @@ public class PackageManagerService extends IPackageManager.Stub
         UserManagerInternal umInternal = mInjector.getUserManagerInternal();
         StorageManagerInternal smInternal = mInjector.getLocalService(StorageManagerInternal.class);
         final int flags;
-        if (StorageManager.isUserKeyUnlocked(userId) && smInternal.isCeStoragePrepared(userId)) {
+        if (umInternal.isUserUnlockingOrUnlocked(userId)) {
             flags = StorageManager.FLAG_STORAGE_DE | StorageManager.FLAG_STORAGE_CE;
         } else if (umInternal.isUserRunning(userId)) {
             flags = StorageManager.FLAG_STORAGE_DE;
@@ -25569,8 +25569,7 @@ public class PackageManagerService extends IPackageManager.Stub
         StorageManagerInternal smInternal = mInjector.getLocalService(StorageManagerInternal.class);
         for (UserInfo user : mUserManager.getUsers(false /* includeDying */)) {
             final int flags;
-            if (StorageManager.isUserKeyUnlocked(user.id)
-                    && smInternal.isCeStoragePrepared(user.id)) {
+            if (umInternal.isUserUnlockingOrUnlocked(user.id)) {
                 flags = StorageManager.FLAG_STORAGE_DE | StorageManager.FLAG_STORAGE_CE;
             } else if (umInternal.isUserRunning(user.id)) {
                 flags = StorageManager.FLAG_STORAGE_DE;
@@ -25910,8 +25909,7 @@ public class PackageManagerService extends IPackageManager.Stub
         StorageManagerInternal smInternal = mInjector.getLocalService(StorageManagerInternal.class);
         for (UserInfo user : mUserManager.getUsers(false /*excludeDying*/)) {
             final int flags;
-            if (StorageManager.isUserKeyUnlocked(user.id)
-                    && smInternal.isCeStoragePrepared(user.id)) {
+            if (umInternal.isUserUnlockingOrUnlocked(user.id)) {
                 flags = StorageManager.FLAG_STORAGE_DE | StorageManager.FLAG_STORAGE_CE;
             } else if (umInternal.isUserRunning(user.id)) {
                 flags = StorageManager.FLAG_STORAGE_DE;

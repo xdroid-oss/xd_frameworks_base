@@ -873,12 +873,20 @@ public final class CameraAdvancedExtensionSessionImpl extends CameraExtensionSes
         @Override
         public int submitBurst(List<Request> requests, IRequestCallback callback) {
             int seqId = -1;
-            try {
-                CaptureCallbackHandler captureCallback = new CaptureCallbackHandler(callback);
-                ArrayList<CaptureRequest> captureRequests = new ArrayList<>();
-                for (Request request : requests) {
-                    captureRequests.add(initializeCaptureRequest(mCameraDevice, request,
-                            mCameraConfigMap));
+            synchronized (mInterfaceLock) {
+                try {
+                    CaptureCallbackHandler captureCallback = new CaptureCallbackHandler(callback);
+                    ArrayList<CaptureRequest> captureRequests = new ArrayList<>();
+                    for (Request request : requests) {
+                        captureRequests.add(initializeCaptureRequest(mCameraDevice, request,
+                                mCameraConfigMap));
+                    }
+                    seqId = mCaptureSession.captureBurstRequests(captureRequests,
+                            new CameraExtensionUtils.HandlerExecutor(mHandler), captureCallback);
+                } catch (CameraAccessException e) {
+                    Log.e(TAG, "Failed to submit capture requests!");
+                } catch (IllegalStateException e) {
+                    Log.e(TAG, "Capture session closed!");
                 }
                 seqId = mCaptureSession.captureBurstRequests(captureRequests,
                         new CameraExtensionUtils.HandlerExecutor(mHandler), captureCallback);
@@ -894,6 +902,7 @@ public final class CameraAdvancedExtensionSessionImpl extends CameraExtensionSes
         @Override
         public int setRepeating(Request request, IRequestCallback callback) {
             int seqId = -1;
+<<<<<<< HEAD
             try {
                 CaptureRequest repeatingRequest = initializeCaptureRequest(mCameraDevice,
                             request, mCameraConfigMap);
@@ -904,6 +913,20 @@ public final class CameraAdvancedExtensionSessionImpl extends CameraExtensionSes
                 Log.e(TAG, "Failed to enable repeating request!");
             } catch (IllegalStateException e) {
                 Log.e(TAG, "Capture session closed!");
+=======
+            synchronized (mInterfaceLock) {
+                try {
+                    CaptureRequest repeatingRequest = initializeCaptureRequest(mCameraDevice,
+                                request, mCameraConfigMap);
+                    CaptureCallbackHandler captureCallback = new CaptureCallbackHandler(callback);
+                    seqId = mCaptureSession.setSingleRepeatingRequest(repeatingRequest,
+                            new CameraExtensionUtils.HandlerExecutor(mHandler), captureCallback);
+                } catch (CameraAccessException e) {
+                    Log.e(TAG, "Failed to enable repeating request!");
+                } catch (IllegalStateException e) {
+                    Log.e(TAG, "Capture session closed!");
+                }
+>>>>>>> 0cd06c8c7118fd88507f0449f61ddf3cbc6e52ee
             }
 
             return seqId;

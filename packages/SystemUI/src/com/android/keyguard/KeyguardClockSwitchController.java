@@ -185,8 +185,6 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
         }
         mColorExtractor.addOnColorsChangedListener(mColorsListener);
         mView.updateColors(getGradientColors());
-        mKeyguardClockTopMargin =
-                mView.getResources().getDimensionPixelSize(R.dimen.keyguard_clock_top_margin);
 
         if (mOnlyClock) {
             View ksa = mView.findViewById(R.id.keyguard_status_area);
