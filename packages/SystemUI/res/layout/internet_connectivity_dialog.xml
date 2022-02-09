@@ -30,6 +30,7 @@
         style="@style/Widget.SliceView.Panel.NoBg"
         android:gravity="center_vertical|center_horizontal"
         android:layout_marginTop="24dp"
+        android:background="?android:attr/colorBackground"
         android:layout_marginBottom="@dimen/internet_dialog_network_layout_margin"
         android:orientation="vertical">
 
