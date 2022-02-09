@@ -19,6 +19,6 @@
 <resources>
 
     <!-- Dialog margin -->
-    <dimen name="xd_margin_dialog">12dp</dimen>
+    <dimen name="xd_margin_dialog">16dp</dimen>
 
 </resources>
