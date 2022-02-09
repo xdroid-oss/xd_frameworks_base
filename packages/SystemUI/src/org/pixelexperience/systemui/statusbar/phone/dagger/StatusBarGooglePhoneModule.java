@@ -99,7 +99,6 @@ import com.android.systemui.statusbar.phone.dagger.StatusBarComponent;
 import com.android.systemui.statusbar.phone.dagger.StatusBarPhoneDependenciesModule;
 import com.android.systemui.statusbar.phone.ongoingcall.OngoingCallController;
 import com.android.systemui.statusbar.policy.BatteryController;
-import com.android.systemui.statusbar.policy.BurnInProtectionController;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController;
 import com.android.systemui.statusbar.policy.ExtensionController;
@@ -231,9 +230,7 @@ public interface StatusBarGooglePhoneModule {
             SmartSpaceController smartSpaceController,
             WallpaperNotifier wallpaperNotifier,
             Optional<ReverseChargingViewController> reverseChargingController,
-            Lazy<Optional<NotificationVoiceReplyClient>> notificationVoiceReplyClient,
-            TunerService tunerService,
-            BurnInProtectionController burnInProtectionController) {
+            Lazy<Optional<NotificationVoiceReplyClient>> notificationVoiceReplyClient) {
         return new StatusBarGoogle(
                 context, notificationsController, lightBarController, autoHideController, keyguardUpdateMonitor,
                 signalPolicy, pulseExpansionHandler, notificationWakeUpCoordinator, keyguardBypassController,
@@ -257,7 +254,6 @@ public interface StatusBarGooglePhoneModule {
                 brightnessSliderFactory, chargingRippleAnimationController, ongoingCallController, animationScheduler,
                 locationPublisher, statusBarIconController, lockscreenShadeTransitionController, featureFlags,
                 keyguardUnlockAnimationController, unlockedScreenOffAnimationController, startingSurfaceOptional,
-                smartSpaceController, wallpaperNotifier, reverseChargingController, notificationVoiceReplyClient,
-                tunerService, burnInProtectionController);
+                smartSpaceController, wallpaperNotifier, reverseChargingController, notificationVoiceReplyClient);
     }
 }
