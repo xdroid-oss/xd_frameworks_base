@@ -23,6 +23,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothHearingAid;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.BluetoothVcp;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -151,6 +152,15 @@ public class BluetoothEventManager {
                     (Handler)sourceInfoHandler);
         }
 
+        // Broadcast broadcasts
+        addHandler("android.bluetooth.broadcast.profile.action.BROADCAST_STATE_CHANGED",
+                new BroadcastStateChangedHandler());
+        addHandler("android.bluetooth.broadcast.profile.action.BROADCAST_ENCRYPTION_KEY_GENERATED",
+                new BroadcastKeyGeneratedHandler());
+        // VCP state changed broadcasts
+        addHandler(BluetoothVcp.ACTION_CONNECTION_MODE_CHANGED, new VcpModeChangedHandler());
+        addHandler(BluetoothVcp.ACTION_VOLUME_CHANGED, new VcpVolumeChangedHandler());
+
         registerAdapterIntentReceiver();
     }
 
@@ -243,6 +253,18 @@ public class BluetoothEventManager {
         }
         for (BluetoothCallback callback : mCallbacks) {
             callback.onAudioModeChanged();
+        }
+    }
+
+    private void dispatchBroadcastStateChanged(int state) {
+        for (BluetoothCallback callback : mCallbacks) {
+            callback.onBroadcastStateChanged(state);
+        }
+    }
+
+    private void dispatchBroadcastKeyGenerated() {
+        for (BluetoothCallback callback : mCallbacks) {
+            callback.onBroadcastKeyGenerated();
         }
     }
 
@@ -370,6 +392,22 @@ public class BluetoothEventManager {
             int state = intent.getIntExtra(BluetoothAdapter.EXTRA_CONNECTION_STATE,
                     BluetoothAdapter.ERROR);
             dispatchConnectionStateChanged(cachedDevice, state);
+        }
+    }
+
+    private class BroadcastStateChangedHandler implements Handler {
+        //@Override
+        public void onReceive(Context context, Intent intent, BluetoothDevice device) {
+            int state = intent.getIntExtra(BluetoothProfile.EXTRA_STATE,
+                    BluetoothAdapter.ERROR);
+            dispatchBroadcastStateChanged(state);
+        }
+    }
+
+    private class BroadcastKeyGeneratedHandler implements Handler {
+        //@Override
+        public void onReceive(Context context, Intent intent, BluetoothDevice device) {
+            dispatchBroadcastKeyGenerated();
         }
     }
 
@@ -607,6 +645,29 @@ public class BluetoothEventManager {
             Log.d(TAG, "A2dpCodecConfigChangedHandler: device=" + device +
                     ", codecStatus=" + codecStatus);
             dispatchA2dpCodecConfigChanged(cachedDevice, codecStatus);
+        }
+    }
+
+    private class VcpModeChangedHandler implements Handler {
+        @Override
+        public void onReceive(Context context, Intent intent, BluetoothDevice device) {
+            CachedBluetoothDevice cachedDevice = mDeviceManager.findDevice(device);
+            int mode = intent.getIntExtra(BluetoothVcp.EXTRA_MODE, 0);
+            if (cachedDevice != null) {
+                Log.i(TAG, cachedDevice + " Vcp connection mode change to " + mode);
+                cachedDevice.refresh();
+            }
+        }
+    }
+
+    private class VcpVolumeChangedHandler implements Handler {
+        @Override
+        public void onReceive(Context context, Intent intent, BluetoothDevice device) {
+            CachedBluetoothDevice cachedDevice = mDeviceManager.findDevice(device);
+            if (cachedDevice != null) {
+                Log.i(TAG, cachedDevice + " Vcp volume change");
+                cachedDevice.refresh();
+            }
         }
     }
 

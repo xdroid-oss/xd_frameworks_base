@@ -34,6 +34,7 @@ import android.bluetooth.BluetoothPbapClient;
 import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothSap;
 import android.bluetooth.BluetoothUuid;
+import android.bluetooth.BluetoothVcp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.ParcelUuid;
@@ -44,6 +45,8 @@ import androidx.annotation.VisibleForTesting;
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.CollectionUtils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -106,6 +109,8 @@ public class LocalBluetoothProfileManager {
     private PbapServerProfile mPbapProfile;
     private HearingAidProfile mHearingAidProfile;
     private SapProfile mSapProfile;
+    private Object mBroadcastProfileObject;
+    private VcpProfile mVcpProfile;
 
     private static final String BC_CONNECTION_STATE_CHANGED =
             "android.bluetooth.bc.profile.action.CONNECTION_STATE_CHANGED";
@@ -244,11 +249,35 @@ public class LocalBluetoothProfileManager {
             mSapProfile = new SapProfile(mContext, mDeviceManager, this);
             addProfile(mSapProfile, SapProfile.NAME, BluetoothSap.ACTION_CONNECTION_STATE_CHANGED);
         }
+        if (mBroadcastProfileObject == null && supportedList.contains(BluetoothProfile.BROADCAST)) {
+            if (DEBUG) {
+                Log.d(TAG, "Adding local Broadcast profile");
+            }
+            try {
+              //mBroadcastProfileObject = new BroadcastProfile(mContext);
+              Class<?> classBroadcastProfile =
+                  Class.forName("com.android.settingslib.bluetooth.BroadcastProfile");
+              Constructor ctor;
+              ctor = classBroadcastProfile.getDeclaredConstructor(new Class[] {Context.class});
+              mBroadcastProfileObject = ctor.newInstance(mContext);
+              mProfileNameMap.put("Broadcast",
+                  (LocalBluetoothProfile) mBroadcastProfileObject);
+            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                  | InstantiationException | InvocationTargetException e) {
+              e.printStackTrace();
+            }
+        }
         if (mGroupClientProfile == null && supportedList.contains(BluetoothProfile.GROUP_CLIENT)) {
             if (DEBUG) Log.d(TAG, "Adding local GROUP CLIENT profile");
             mGroupClientProfile = new DeviceGroupClientProfile(mContext, mDeviceManager, this);
             addProfile(mGroupClientProfile, mGroupClientProfile.NAME,
                     BluetoothDeviceGroup.ACTION_CONNECTION_STATE_CHANGED);
+        }
+        if (mVcpProfile == null && supportedList.contains(BluetoothProfile.VCP)) {
+            if(DEBUG) Log.d(TAG, "Adding local VCP profile");
+            mVcpProfile = new VcpProfile(mContext, mDeviceManager, this);
+            addProfile(mVcpProfile, VcpProfile.NAME,
+                    BluetoothVcp.ACTION_CONNECTION_STATE_CHANGED);
         }
         mEventManager.registerProfileIntentReceiver();
     }
@@ -480,6 +509,10 @@ public class LocalBluetoothProfileManager {
         return mSapProfile;
     }
 
+    public Object getBroadcastProfile() {
+        return mBroadcastProfileObject;
+    }
+
     public LocalBluetoothProfile getBCProfile() {
         Log.d(TAG, "getBCProfile returning: " + mBCProfile);
         return mBCProfile;
@@ -498,6 +531,11 @@ public class LocalBluetoothProfileManager {
     public DeviceGroupClientProfile getDeviceGroupClientProfile() {
         return mGroupClientProfile;
     }
+
+    public VcpProfile getVcpProfile() {
+        return mVcpProfile;
+    }
+
     /**
      * Fill in a list of LocalBluetoothProfile objects that are supported by
      * the local device and the remote device.
