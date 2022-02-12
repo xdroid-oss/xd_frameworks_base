@@ -16,7 +16,7 @@
 * limitations under the License.
 */
 -->
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="screenrecord_skip_time_label">Skip 3 second wait</string>
 
