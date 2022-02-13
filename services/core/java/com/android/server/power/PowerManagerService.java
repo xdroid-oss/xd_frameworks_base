@@ -1951,7 +1951,7 @@ public final class PowerManagerService extends SystemService
     
     private void sendSleepBroadcast() {
         Intent intent = new Intent(
-                com.android.internal.util.xtended.content.Intent.ACTION_GO_TO_SLEEP);
+                com.android.internal.util.xd.content.Intent.ACTION_GO_TO_SLEEP);
         intent.setFlags(Intent.FLAG_RECEIVER_INCLUDE_BACKGROUND);
         mContext.sendBroadcastAsUser(intent, UserHandle.SYSTEM);
     }

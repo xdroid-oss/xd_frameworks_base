@@ -18,6 +18,7 @@
     <!-- Whether device supports an alt. ambient display -->
     <java-symbol type="bool" name="config_alt_ambient_display"/>
 
+
     <!-- Package Manager -->
     <java-symbol type="array" name="config_deviceDisabledComponents" />
     <java-symbol type="array" name="config_globallyDisabledComponents" />
