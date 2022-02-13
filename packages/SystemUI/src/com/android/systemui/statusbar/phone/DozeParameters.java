@@ -180,22 +180,11 @@ public class DozeParameters implements
      * @return {@code true} if enabled and available.
      */
     public boolean getAlwaysOn() {
-        return mAmbientDisplayConfiguration.alwaysOnEnabled(UserHandle.USER_CURRENT) ? true : false;
+        return mAmbientDisplayConfiguration.alwaysOnEnabled(UserHandle.USER_CURRENT);
     }
 
     public boolean isQuickPickupEnabled() {
         return mAmbientDisplayConfiguration.quickPickupSensorEnabled(UserHandle.USER_CURRENT);
-    }
-
-    /**
-     * Checks if always on is available and enabled for the current user
-     * without notification pulse - used to check what to do if aod notification pulse stops
-     * @return {@code true} if enabled and available.
-     * @hide
-     */
-    public boolean getAlwaysOnAfterAmbientLight() {
-        return mAmbientDisplayConfiguration.alwaysOnEnabledSetting(UserHandle.USER_CURRENT) ||
-                mAmbientDisplayConfiguration.alwaysOnChargingEnabled(UserHandle.USER_CURRENT);
     }
 
     /**
@@ -308,5 +297,4 @@ public class DozeParameters implements
          */
         void onAlwaysOnChange();
     }
-
 }
