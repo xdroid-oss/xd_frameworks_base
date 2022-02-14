@@ -16,9 +16,13 @@
 
 package com.android.keyguard;
 
+import static com.android.keyguard.KeyguardAbsKeyInputView.MINIMUM_PASSWORD_LENGTH_BEFORE_REPORT;
+
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -37,7 +41,9 @@ import android.widget.ImageView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.android.internal.util.LatencyTracker;
+import com.android.internal.widget.LockscreenCredential;
 import com.android.internal.widget.LockPatternUtils;
+import com.android.internal.widget.LockPatternUtils.RequestThrottledException;
 import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
 import com.android.settingslib.Utils;
 import com.android.systemui.R;
@@ -58,6 +64,12 @@ public class KeyguardPasswordViewController
     private final boolean mShowImeAtScreenOn;
     private EditText mPasswordEntry;
     private ImageView mSwitchImeButton;
+
+    private final boolean quickUnlock = (Settings.System.getIntForUser(getContext().getContentResolver(),
+            Settings.System.LOCKSCREEN_QUICK_UNLOCK_CONTROL, 0, UserHandle.USER_CURRENT) == 1);
+    private final int userId = KeyguardUpdateMonitor.getCurrentUser();
+
+    private LockPatternUtils mLockPatternUtils;
 
     private final OnEditorActionListener mOnEditorActionListener = (v, actionId, event) -> {
         // Check if this was the result of hitting the enter key
@@ -89,6 +101,13 @@ public class KeyguardPasswordViewController
         public void afterTextChanged(Editable s) {
             if (!TextUtils.isEmpty(s)) {
                 onUserInput();
+                if (quickUnlock) {
+                    LockscreenCredential entry = mView.getEnteredCredential();
+                    if (entry.size() == keyguardPinPasswordLength()) {
+                        validateQuickUnlock(mLockPatternUtils, entry, userId);
+                    }
+
+                }
             }
         }
     };
@@ -126,6 +145,7 @@ public class KeyguardPasswordViewController
         mShowImeAtScreenOn = resources.getBoolean(R.bool.kg_show_ime_at_screen_on);
         mPasswordEntry = mView.findViewById(mView.getPasswordTextViewId());
         mSwitchImeButton = mView.findViewById(R.id.switch_ime_button);
+        mLockPatternUtils = lockPatternUtils;
     }
 
     @Override
@@ -309,5 +329,46 @@ public class KeyguardPasswordViewController
                 // imm.getEnabledInputMethodSubtypeList(null, false) will return the current IME's
                 //enabled input method subtype (The current IME should be LatinIME.)
                 || imm.getEnabledInputMethodSubtypeList(null, false).size() > 1;
+    }
+
+    private AsyncTask<?, ?, ?> validateQuickUnlock(final LockPatternUtils utils,
+            final LockscreenCredential password,
+            final int userId) {
+        AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            protected Boolean doInBackground(Void... args) {
+                try {
+                    return utils.checkCredential(password, userId, null);
+                } catch (RequestThrottledException ex) {
+                    return false;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                runQuickUnlock(result);
+            }
+        };
+        task.execute();
+        return task;
+    }
+
+    private void runQuickUnlock(Boolean matched) {
+        if (matched) {
+            mKeyguardSecurityCallback.reportUnlockAttempt(userId, true, 0);
+            mKeyguardSecurityCallback.dismiss(true, userId);
+            mView.resetPasswordText(true, true);
+        }
+    }
+
+    private int keyguardPinPasswordLength() {
+        int pinPasswordLength = -1;
+        try {
+            pinPasswordLength = (int) mLockPatternUtils.getLockSettings().getLong("lockscreen.pin_password_length", 0, userId);
+        } catch (Exception e) {
+            // do nothing
+        }
+        return pinPasswordLength >= 4 ? pinPasswordLength : -1;
     }
 }

@@ -62,6 +62,8 @@
         <item><xliff:g id="id">@string/status_bar_airplane</xliff:g></item>
         <item><xliff:g id="id">@string/status_bar_battery</xliff:g></item>
         <item><xliff:g id="id">@string/status_bar_sensors_off</xliff:g></item>
+        <item><xliff:g id="id">@string/status_bar_center_clock</xliff:g></item>
+        <item><xliff:g id="id">@string/status_bar_right_clock</xliff:g></item>
     </string-array>
 
     <string translatable="false" name="status_bar_rotate">rotate</string>
@@ -100,6 +102,8 @@
     <string translatable="false" name="status_bar_call_strength">call_strength</string>
     <string translatable="false" name="status_bar_sensors_off">sensors_off</string>
     <string translatable="false" name="status_bar_screen_record">screen_record</string>
+    <string translatable="false" name="status_bar_center_clock">center_clock</string>
+    <string translatable="false" name="status_bar_right_clock">right_clock</string>
 
     <!-- Flag indicating whether the surface flinger has limited
          alpha compositing functionality in hardware.  If set, the window
@@ -2966,9 +2970,8 @@
         <item>lockdown</item>
         <item>power</item>
         <item>restart</item>
+        <item>recovery</item>
         <item>logout</item>
-        <item>screenshot</item>
-        <item>bugreport</item>
     </string-array>
 
     <!-- Number of milliseconds to hold a wake lock to ensure that drawing is fully
@@ -4180,7 +4183,7 @@
     <string-array name="config_disableApkUnlessMatchedSku_skus_list" translatable="false" />
 
     <!-- Whether or not we should show the option to show battery percentage -->
-    <bool name="config_battery_percentage_setting_available">true</bool>
+    <bool name="config_battery_percentage_setting_available">false</bool>
 
     <!-- Whether or not battery saver should be "sticky" when manually enabled. -->
     <bool name="config_batterySaverStickyBehaviourDisabled">false</bool>

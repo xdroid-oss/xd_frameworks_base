@@ -1,4 +1,4 @@
-package com.android.internal.util.xtended.content;
+package com.android.internal.util.xd.content;
 import android.Manifest;
 
 /**
@@ -11,5 +11,5 @@ public class Intent {
      * @hide
      */
     public static final String ACTION_GO_TO_SLEEP =
-            "xtended.intent.action.GO_TO_SLEEP";
+            "xd.intent.action.GO_TO_SLEEP";
 }
