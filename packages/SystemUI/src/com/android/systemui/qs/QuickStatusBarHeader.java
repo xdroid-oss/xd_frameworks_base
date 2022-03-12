@@ -107,6 +107,10 @@ public class QuickStatusBarHeader extends FrameLayout {
 
     private boolean mUseCombinedQSHeader;
 
+    private static final int BATTERY_STYLE_CIRCLE = 1;
+    private static final int BATTERY_STYLE_DOTTED_CIRCLE = 2;
+    private static final int BATTERY_STYLE_FULL_CIRCLE = 3;
+
     public QuickStatusBarHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
