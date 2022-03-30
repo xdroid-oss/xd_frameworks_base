@@ -95,7 +95,6 @@ public class PixelPropsUtils {
             "com.riotgames.league.wildrifttw",
             "com.riotgames.league.wildriftvn",
             "com.netease.lztgglobal",
-            "com.epicgames.fortnite",
             "com.epicgames.portal"
     };
 
