@@ -96,10 +96,10 @@ public class QSFactoryImplGoogle extends QSFactoryImpl {
             Provider<DeviceControlsTile> deviceControlsTileProvider,
             Provider<AlarmTile> alarmTileProvider,
             Provider<QuickAccessWalletTile> quickAccessWalletTileProvider,
+            Provider<PowerShareTile> powerShareTileProvider,
             Provider<HeadsUpTile> headsUpTileProvider,
             Provider<DataSwitchTile> dataSwitchTileProvider,
-            Provider<ReverseChargingTile> reverseChargingTileProvider,
-            Provider<PowerShareTile> powerShareTileProvider) {
+            Provider<ReverseChargingTile> reverseChargingTileProvider) {
         super(qsHostLazy,
                 customTileBuilderProvider,
                 wifiTileProvider,
@@ -129,9 +129,9 @@ public class QSFactoryImplGoogle extends QSFactoryImpl {
                 deviceControlsTileProvider,
                 alarmTileProvider,
                 quickAccessWalletTileProvider,
+                powerShareTileProvider,
                 headsUpTileProvider,
-                dataSwitchTileProvider,
-                powerShareTileProvider);
+                dataSwitchTileProvider);
         mReverseChargingTileProvider = reverseChargingTileProvider;
         mBatterySaverTileGoogleProvider = batterySaverTileGoogleProvider;
     }

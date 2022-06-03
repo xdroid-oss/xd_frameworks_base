@@ -279,7 +279,7 @@ public interface StatusBarGooglePhoneModule {
                 statusBarHideIconsForBouncerManager, lockscreenShadeTransitionController, featureFlags,
                 keyguardUnlockAnimationController, mainHandler, delayableExecutor, messageRouter, wallpaperManager,
                 unlockedScreenOffAnimationController, startingSurfaceOptional, tunerService, dumpManager, activityLaunchAnimator,
-                wiredChargingRippleController, burnInProtectionController, smartSpaceController, wallpaperNotifier, reverseChargingViewController,
+                burnInProtectionController, wiredChargingRippleController, smartSpaceController, wallpaperNotifier, reverseChargingViewController,
                 notificationVoiceReplyClient);
     }
 }
