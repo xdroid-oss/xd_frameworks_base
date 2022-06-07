@@ -79,7 +79,7 @@ class AuthRippleController @Inject constructor(
     internal var startLightRevealScrimOnKeyguardFadingAway = false
     var fingerprintSensorLocation: PointF? = null
     private var faceSensorLocation: PointF? = null
-    private var circleReveal: LightRevealEffect? = null
+    private var circleReveal: CircleReveal? = null
 
     private var udfpsController: UdfpsController? = null
     private var udfpsRadius: Float = -1f
@@ -179,7 +179,10 @@ class AuthRippleController @Inject constructor(
                     startDelay = keyguardStateController.keyguardFadingAwayDelay
                     addUpdateListener { animator ->
                         if (lightRevealScrim.revealEffect != circleReveal) {
-                            // if something else took over the reveal, let's do nothing.
+                            // When the animator is almost done, fully reveal the scrim.
+                            if (animator.animatedValue as Float >= 0.9999f) {
+                                lightRevealScrim.revealAmount = 1f
+                            }
                             return@addUpdateListener
                         }
                         lightRevealScrim.revealAmount = animator.animatedValue as Float
@@ -210,15 +213,17 @@ class AuthRippleController @Inject constructor(
         updateFingerprintLocation()
         faceSensorLocation = authController.faceAuthSensorLocation
         fingerprintSensorLocation?.let {
-            circleReveal = CircleReveal(
-                it.x,
-                it.y,
-                0f,
-                Math.max(
-                    Math.max(it.x, statusBar.displayWidth - it.x),
-                    Math.max(it.y, statusBar.displayHeight - it.y)
+            if (circleReveal == null || circleReveal!!.centerX != it.x || circleReveal!!.centerY != it.y) {
+                circleReveal = CircleReveal(
+                    it.x,
+                    it.y,
+                    0f,
+                    Math.max(
+                        Math.max(it.x, statusBar.displayWidth - it.x),
+                        Math.max(it.y, statusBar.displayHeight - it.y)
+                    )
                 )
-            )
+            }
         }
     }
 
