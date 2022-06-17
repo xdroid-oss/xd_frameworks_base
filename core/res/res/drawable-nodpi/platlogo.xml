@@ -1,7 +1,9 @@
 <!--
-Copyright (C) 2021 The Android Open Source Project
+    
+    Copyright (C) 2021 The Android Open Source Project
+    Copyright (C) 2022 xdroidOSS, xyzprjkt
 
-   Licensed under the Apache License, Version 2.0 (the "License");
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -14,23 +16,31 @@ Copyright (C) 2021 The Android Open Source Project
     limitations under the License.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="128dp"
-    android:height="128dp"
-    android:viewportWidth="128"
-    android:viewportHeight="128">
-  <path
-      android:pathData="M64,64m-64,0a64,64 0,1 1,128 0a64,64 0,1 1,-128 0"
-      android:fillColor="@android:color/system_accent3_500"/>
-  <path
-      android:pathData="M32.5,34.15a10,10 0,0 1,9.94 10V93.85"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="#fff"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M95.5,93.85H55.71V83.9A19.9,19.9 0,0 1,75.61 64h10a9.94,9.94 0,0 0,9.94 -10,19.9 19.9,0 0,0 -38.69,-6.56A20.77,20.77 0,0 0,56 50.73"
-      android:strokeWidth="4"
-      android:fillColor="#00000000"
-      android:strokeColor="#fff"
-      android:strokeLineCap="round"/>
+    android:width="1355dp"
+    android:height="1355dp"
+    android:viewportWidth="1355"
+    android:viewportHeight="1355">
+
+    <path
+        android:fillColor="@android:color/system_accent3_500"
+        android:pathData="M 677.5 0 C 1051.67291801 0 1355 303.32708199 1355 677.5 C 1355 1051.67291801 1051.67291801 1355 677.5 1355 C 303.32708199 1355 0 1051.67291801 0 677.5 C 0 303.32708199 303.32708199 0 677.5 0 Z" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#ffffff"
+        android:strokeWidth="34"
+        android:strokeLineCap="round"
+        android:pathData="M492.5 549.5C504.167 498.333 558 396 680 396C802 396 852.5 498.333 862.5 549.5C865 577.5 871 620.5 835.5 654C812.079 676.101 779 676.5 700.5 676.5C607.5 676.5 572.5 698.5 541.5 728C530.992 738 492.5 787 492.5 848L490.5 956.5H860.5" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#ffffff"
+        android:strokeWidth="34"
+        android:strokeLineCap="round"
+        android:pathData="M274 396C298.333 397.833 367 419 367 483C367 523.621 367 800.5 367 956" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#ffffff"
+        android:strokeWidth="34"
+        android:strokeLineCap="round"
+        android:pathData="M1081 958C1056.67 956.167 988 935 988 871C988 830.379 988 553.5 988 398" />
+
 </vector>
