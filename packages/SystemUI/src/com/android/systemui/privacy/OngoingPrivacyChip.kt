@@ -91,7 +91,7 @@ class OngoingPrivacyChip @JvmOverloads constructor(
         iconSize = context.resources
                 .getDimensionPixelSize(R.dimen.ongoing_appops_chip_icon_size)
         iconColor = context.resources
-                .getColor(android.R.color.system_accent1_10)
+                .getColor(R.color.privacy_chip_icon_color)
 
         val padding = context.resources
                 .getDimensionPixelSize(R.dimen.ongoing_appops_chip_side_padding)
