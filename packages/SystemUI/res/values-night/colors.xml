@@ -99,7 +99,4 @@
     <color name="accessibility_floating_menu_background">#B3000000</color> <!-- 70% -->
 
     <color name="people_tile_background">@android:color/system_accent2_800</color>
-
-    <color name="privacy_chip_background">?android:attr/textColorPrimary</color>
-
 </resources>
